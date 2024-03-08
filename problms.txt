@@ -1,0 +1,190 @@
+package assignments_edyoda;
+
+   
+
+public class Problems {
+	//problem 14 and 21 , 5
+	
+	static public void problem14() 
+	{
+	
+		   System.out.println(java.time.LocalDate.now());   
+	}
+	
+	
+	
+	static public void Problem19() 
+	{
+	String myStr = "Davi Beckham";
+    System.out.println(myStr.replace("Davi Beckham", "David Beckham"));
+    String myStr1 = "400";
+    System.out.println(myStr1.replace("400", "579"));
+    
+    
+    
+	}
+	
+	 
+	static public void problem21() 
+	{
+	String myStr = "Liverpool";
+    System.out.println(myStr.replace("Liverpool", "Liverpool Football Club"));
+    String myStr1 = "City";
+    System.out.println(myStr1.replace("City", "Manchester City"));
+    
+    
+    
+	}
+	
+	
+	static public void problem22() 
+	{
+	String myStr = "Narendra Modi";
+    System.out.println(myStr.toUpperCase());
+ 
+    
+    
+    
+	}
+	
+	
+	static public void problem5() 
+	{
+	
+	for (int i=500;i<=1000;i++)
+	{
+		if (i==808)
+		{
+			 System.out.println("Printing when loop reached to 808 :: " + i);    
+		}
+			
+	}
+	}
+	static public void Problem_20() 
+	{
+	
+		 String str1 = "Cristiano Ronaldo";
+	        String str2 = "Ronaldo Nazario";
+
+	        // Check if the two strings are equal using the equals() method
+	        boolean isEqual = str1.equals(str2);
+
+	        // Print the result
+	        System.out.println(isEqual); // Output: true
+	}
+	
+	static public void Problem_17() 
+	{
+	  int a=40;
+	  
+	  if(a % 2 == 0)
+		{
+			 System.out.println("Even");    
+		}
+	  
+	  else 
+	  {System.out.println("Odd Number");    
+		  
+	  }
+	}
+	
+	
+	
+	
+	public static void main(String[] args) {
+	 
+		problem14();
+		problem21() ;
+		
+		
+		problem5();
+		
+		problem22();
+		Problem_20() ;
+		 Problem19();
+		 
+		 Problem_17() ;
+	}
+	
+	
+	
+	
+
+}
+
+
+package assignments_edyoda;
+
+public class Problem_24 {
+
+	
+	public Problem_24(int a,int b)
+	{
+		 System.out.println(a*b);   
+	}
+	
+	public Problem_24(int a , int b, int c)
+	{
+		 System.out.println(a*b+c);   
+	}
+	public Problem_24(String a)
+	{
+		 System.out.println(a);   
+	}
+	
+
+	public static void main(String[] args) {
+		 
+		Problem_24 p1=new Problem_24(12,78);
+		Problem_24 p2=new Problem_24(12,78,89);
+		
+		Problem_24 p3=new Problem_24("Divakar");
+	}
+
+}
+
+
+package assignments_edyoda;
+
+ 
+
+class Parent
+{
+	int x=30;
+    Parent()
+    {
+        System.out.println("Non-Param of parent");
+    }
+    Parent(int x)
+    {
+        System.out.println("Param of parent "+this.x);
+    }
+}
+
+class Child extends Parent
+{
+    Child()
+    {
+        System.out.println("Non-Param of child");
+    }
+    Child(int y)
+    {
+        System.out.println("Param of child");
+    }
+    Child(int x,int y)
+    {
+        super(x);
+        System.out.println("2 param of child "+y);
+    }
+}
+
+public class Problem2 {
+
+    public static void main(String[] args) {
+        //Child c=new Child();
+        //Child c=new Child(20);
+        Child c=new Child(80,20);
+    }
+    
+}
+

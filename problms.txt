@@ -188,3 +188,36 @@ public class Problem2 {
     
 }
 
+
+package assignments_edyoda;
+
+public class Problem4 {
+
+	public static void main(String[] args) {
+
+
+		String day ="multi";
+		int a=12, b=10;
+		
+		switch (day) 
+		{
+		  case "add":
+			  System.out.println(a+b);
+		    break;
+		  case "multi":
+			  System.out.println(a*b);
+		    break;
+		  case "division":
+			  System.out.println(a/b);		  
+			  
+		    break;
+		  case "sub":
+			  System.out.println(a-b);
+		}
+		
+
+	}
+
+}
+
+

@@ -221,3 +221,36 @@ public class Problem4 {
 }
 
 
+package com.test.java;
+
+import java.util.HashSet;
+
+public class Problem6 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		
+		HashSet<Integer> hs = new HashSet<Integer>();
+		
+		hs.add(10);
+		hs.add(30);
+		
+		hs.add(20);
+		
+      hs.add(10);
+		
+		hs.add(30);
+		
+		hs.remove(20);
+		
+		 System.out.println("Hashset "+ hs);// no duplicate value re allowed
+		
+		
+
+	}
+
+}
+
+
+

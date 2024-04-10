@@ -1,3 +1,77 @@
+Cucumber 
+
+     @assinment
+  Scenario Outline: Assement
+    Given User enter the cecuos "<celsious>"
+    When  w3schools bosdyused
+    When  w3schools User send a post call with"<url>"
+    When  user w3schoolscode  as for post"<status_code1>"
+_______________________
+
+JAVA 
+
+ @Given("User enter the cecuos {string}")
+    public void User_enter_the_cecuos(String celcuos) {
+        Celc =celcuos;
+
+
+    }
+
+
+
+
+    @Then("w3schools bosdyused")
+    public void w3schools_bosdyused() {
+
+        request_body1 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\n" +
+                "  <soap12:Body>\n" +
+                "    <CelsiusToFahrenheitResponse xmlns=\"https://www.w3schools.com/xml/\">\n" +
+                "      <CelsiusToFahrenheitResult>"+Celc+"</CelsiusToFahrenheitResult>\n" +
+                "    </CelsiusToFahrenheitResponse>\n" +
+                "  </soap12:Body>\n" +
+                "</soap12:Envelope>" ;
+
+
+
+
+    }
+    @Given("w3schools User send a post call with{string}")
+    public void w3schools_user_send_a_post_call_with(String actuaURL) {
+        response = given().contentType(ContentType.XML).header("Content-Type","text/xml; charset=utf-8")
+                .body(request_body1).when().post(actuaURL);
+        System.out.println("Response "+ response.getBody().asString());
+
+
+    }
+
+
+
+    @When("user w3schoolscode  as for post{string}")
+    public void use_w3schoolscode_as_for_post(String acststuscode) {
+        int statusCode1 = response.statusCode();
+        Assert.assertEquals(String.valueOf(statusCode1),acststuscode);
+
+    }
+
+
+__________________________
+
+Runner 
+
+
+  @assinment
+  Scenario Outline: Assement
+    Given User enter the cecuos "<celsious>"
+    When  w3schools bosdyused
+    When  w3schools User send a post call with"<url>"
+    When  user w3schoolscode  as for post"<status_code1>"
+
+
+
+_______
+
+
 package assignments_edyoda;
 
    

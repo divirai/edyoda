@@ -326,5 +326,340 @@ public class Problem6 {
 
 }
 
+_________________________________
+
+package GetUser;
+
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import static io.restassured.RestAssured.*;
+import reusable.reusableBody;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.*;
+
+public class NewUSer {
+
+    reusableBody RJB;
+
+    public int role=5;
+
+    private ExtentSparkReporter spark;
+    private ExtentReports extent;
+    private ExtentTest logger;
 
 
+
+    Response response;
+    @BeforeClass
+    public void Opeconnection()
+    {
+        System.out.println("Open connection");
+
+        RJB=new reusableBody();
+    }
+
+
+    @Parameters({"requrl","name","SSN"})
+    @Test(groups= {"smoke"})
+    public void adduser(String requrl, String name, String SSN)
+    {
+
+        Opeconnection();
+        Response rest = given()
+                .contentType(ContentType.JSON)
+                .body(RJB.CreateUserJsonBody(name, SSN))
+                .when()
+                .post(requrl);
+
+        int statuccode =rest.statusCode();
+        String responsebody =rest.getBody().asString();
+
+        System.out.println("Ststus Code : " + statuccode);
+        System.out.println("Response body: "+ responsebody);
+
+
+        String userID =rest.getBody().jsonPath().getString("id");
+        String job =rest.getBody().jsonPath().getString("job");
+
+        System.out.println("Response body: "+ userID);
+        System.out.println("Response body: "+ job);
+
+    }
+
+
+    @Parameters({"requrldelete"})
+    @Test(groups= {"smoke"})
+    public void deleteuser(String requrldelete)
+    {
+
+         when()
+                .post(requrldelete).
+                then().statusCode(415).log().all();
+
+        System.out.println("User DSeletes ");
+
+    }
+
+
+    @Parameters({"celsURL","celsios","excpectefanse"})
+    @Test(groups= {"reggresion"})
+    public void clecusoistofanern(String celsURL, String celsious, String expcted)
+    {
+
+        Opeconnection();
+        Response rest = given()
+                .contentType(ContentType.XML)
+                .body(RJB.celsios_to_farenrequestbosy(celsious))
+                .when()
+                .post(celsURL);
+
+        int statuccode =rest.statusCode();
+        String responsebody =rest.getBody().asString();
+
+        System.out.println("Ststus Code : " + statuccode);
+        System.out.println("Response body: "+ responsebody);
+
+
+    }
+    @Parameters({"bookurl"})
+    @Test(groups= {"final"}, priority = 1)
+
+    public void book_xml(String bookurl)
+    {
+        String baseurl=null;
+        System.out.println( "Book XML URL is : "+bookurl);
+
+    }
+
+
+
+    @Test
+
+    public void valiadateWithContains()
+    {
+        Response response = get("https://reqres.in/api/users?page=2");
+        String res= response.getBody().asString();
+        int jsonPathCount = response.getBody().jsonPath().getList("data.first_name").size();
+        System.out.println("Count is:"+jsonPathCount);
+        for(int a = 0;a<jsonPathCount;a++){
+            String id =response.getBody().jsonPath().getString("data.id["+a+"]");
+            String email =response.getBody().jsonPath().getString("data.email["+a+"]");
+            System.out.println("If id value is:"+id+" Then email value is:"+email);
+        }
+    }
+
+
+
+XML File 
+
+    @AfterClass
+    public void closeconnection()
+    {
+        System.out.println("Close connection");
+    }
+}
+
+
+
+
+
+<suite name="reg" verbose="1" parallel="methods">
+
+
+     <test name="NewUSer">
+
+         <parameter name="requrl" value="https://reqres.in/api/users"></parameter>
+         <parameter name="requrldelete" value="https://reqres.in/api/users/2"></parameter>
+
+
+
+
+         <parameter name="name" value="Raksha"></parameter>
+         <parameter name="SSN" value="545944999"></parameter>
+
+
+        <parameter name="celsURL" value="https://www.w3schools.com/xml/tempconvert.asmx"></parameter>
+        <parameter name="celsios" value="5" ></parameter>
+         <parameter name="excpectefanse" value="41" ></parameter>
+         <parameter name="bookurl" value="https://chercher.tech/sample/api/books.xml" ></parameter>
+         <parameter name="rerwsGet" value="https://reqres.in/api/users?page=2" ></parameter>
+
+
+
+         <classes>
+            <class name="GetUser.NewUSer" />
+        </classes>
+    </test>
+</suite>
+
+Reusability 
+
+
+package reusable;
+
+
+import io.restassured.response.Response;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.Test;
+
+import java.io.FileInputStream;
+public class reusableBody {
+
+    public String CreateUserJsonBody(String name , String SSN){
+
+        String body = "{\n" +
+                "    \"name\": \""+name+"\",\n" +
+                "    \"job\": \"NEW DEA\",\n" +
+                "    \"Address\": \"123 Bangalore Karnataka\",\n" +
+                "    \"SSN\": \"" +SSN+ "\"\n" +
+                "}";
+
+        return body;
+    }
+
+    public String celsios_to_farenrequestbosy(String Celc)
+
+    {
+       String  request_body1 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\n" +
+                "  <soap12:Body>\n" +
+                "    <CelsiusToFahrenheitResponse xmlns=\"https://www.w3schools.com/xml/\">\n" +
+                "      <CelsiusToFahrenheitResult>"+Celc+"</CelsiusToFahrenheitResult>\n" +
+                "    </CelsiusToFahrenheitResponse>\n" +
+                "  </soap12:Body>\n" +
+                "</soap12:Envelope>" ;
+
+        return request_body1;
+
+
+    }
+
+
+
+    public String readingXLFileAsPerTestData(String testcaseName, String colName) {
+
+        String data = null;
+        try {
+            // String xlFile = System.getProperty(user.dir)
+            String xlFile = "C:\\Users\\divakarab\\IdeaProjects\\TestNGNEW\\src\\data.xlsx";
+            FileInputStream myxlfile1 = new FileInputStream(xlFile);
+            Workbook workbook = new XSSFWorkbook(myxlfile1);
+            Sheet sheet = workbook.getSheet("new");
+            int lastrow = sheet.getLastRowNum();
+            System.out.println("The last row number which has data is:" + lastrow);
+
+            //loop for row iteration
+            for (int i = 0; i <= lastrow; i++) {
+                Row row = sheet.getRow(i);
+                //get the  last column which has data
+                int lastCell = row.getLastCellNum();
+                Cell cell = row.getCell(0);
+                String runTimeTestCaseName = cell.getStringCellValue();
+
+                if (runTimeTestCaseName.equals(testcaseName)) {
+
+                    //Loop for column iteration
+                    Row rowNew = sheet.getRow(0);
+                    for (int j = 1; j < lastCell; j++) {
+                        Cell cell1 = rowNew.getCell(j);
+                        String runTimeCellValue = cell1.getStringCellValue();
+                        if (runTimeCellValue.equals(colName)) {
+                            data = sheet.getRow(i).getCell(j).toString();
+                            System.out.println("The title value is :" + data);
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return data;
+    }
+
+
+    public String workshopreadlexcelfile(int year, int population) {
+
+        String data = null;
+        try {
+            // String xlFile = System.getProperty(user.dir)
+            String xlFile = "C:\\Users\\divakarab\\IdeaProjects\\TestNGNEW\\src\\data.xlsx";
+//go to File
+            FileInputStream myxlfile1 = new FileInputStream(xlFile);
+            //got to workbook
+            Workbook workbook = new XSSFWorkbook(myxlfile1);
+            Sheet sheet = workbook.getSheet("work");
+            int lastrow = sheet.getLastRowNum();
+            System.out.println("The last row number which has data is:" + lastrow);
+
+            //loop for row iteration
+            for (int i = 0; i <= lastrow; i++) {
+                Row row = sheet.getRow(i);
+                //get the  last column which has data
+                int lastCell = row.getLastCellNum();
+                Cell cell = row.getCell(0);
+                String runTimeTestCaseName = cell.getStringCellValue();
+
+                if (runTimeTestCaseName.equals(year)) {
+
+                    //Loop for column iteration
+                    Row rowNew = sheet.getRow(0);
+                    for (int j = 1; j < lastCell; j++) {
+                        Cell cell1 = rowNew.getCell(j);
+                        String runTimeCellValue = cell1.getStringCellValue();
+                        if (runTimeCellValue.equals(population)) {
+                            data = sheet.getRow(i).getCell(j).toString();
+                            System.out.println("The title value is :" + data);
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return data;
+    }
+
+    public String statuscodeconvert(String statuscode) {
+
+        String Flag = null;
+
+        {
+
+            try
+            {
+                float f;
+                int val;
+                f = Float.parseFloat(statuscode);
+                val =(int)f;
+                Flag=String.valueOf(val);
+                System.out.println("The last row number which has data is:" + Flag);
+
+
+
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
+
+            return Flag;
+
+
+        }
+    }
+
+}

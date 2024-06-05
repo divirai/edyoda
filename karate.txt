@@ -1,0 +1,74 @@
+Feature: recrus post validation
+
+  Background:
+    *  def serviceURL = 'https://reqres.in/api/users'
+    *  def serviceURLGet = 'https://reqres.in/api/users/2'
+
+
+  Scenario Outline:
+
+    Given url serviceURL
+    * def javaFileObj = Java.type('support.readjavafunction')
+    * def name = javaFileObj.create_json_body('<Testname>','name')
+    * def job = javaFileObj.create_json_body('<Testname>','Lname')
+
+
+    * def  jsonBody =
+      """
+      {
+        "name": '<name>',
+        "job": '<job>'
+      }
+      """
+    When request jsonBody
+    Then method post
+    Then status 201
+    And match responseType == 'json'
+    And print "response is " , response
+    And response.name=='<name>'
+    And response.job=='<job>'
+    And response.createat != null
+
+    Examples:
+      |Testname |
+      | 101|
+      | 102|
+      | 103|
+      | 104|
+      | 105|
+      | 106|
+      | 107|
+      | 107|
+      | 108|
+
+
+
+
+
+package karate;
+import com.intuit.karate.junit5.*;
+
+
+public class validateusingKarate {
+
+
+        String My_projectpath = System.getProperty("user.dir").toString();
+
+        //Validate website Get URLs
+
+        @Karate.Test
+        Karate testSample_REST()
+        {
+                return Karate.run(My_projectpath + "/src/test/featureFiles/readfromxl.feature");
+
+
+        }
+}
+
+
+
+
+
+
+
+

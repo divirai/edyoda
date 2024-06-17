@@ -1,0 +1,128 @@
+package GetUser;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.Test;
+import reaXL.readSimpleXLfile;
+import reusable.reusableBody;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+
+
+
+public class createcreadit_card {
+
+    Connection dbconnection;
+   // reusableBody reusable;
+    /*
+    @Test(priority = 1)
+    void create_creadit_card_table()
+    {
+        try
+        {
+
+            //URL, DB User Name , DB Password
+            dbconnection= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306", "root", "jingale@9999");
+            if (dbconnection != null)
+            {
+                System.out.println("Database server is connected");
+            }
+
+            Statement stamnt = dbconnection.createStatement();
+            stamnt.execute("use HDFC_Bank");
+
+
+            // Create an empty Table
+
+            stamnt.execute("create table credicarddetails\n" +
+
+                    "(name varchar(20) ,\n" +
+                    "Card_Type varchar(20)  ,\n" +
+                    "year DATE,\n" +
+                    "CreditCardNumber integer, \n" +
+                    "Credit_Limit varchar(20) , \n" +
+                    "Date  DATE) ");
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    */
+
+
+    @Test(priority = 2)
+    void read_and_print_xl_as_per_test_data(String Test_case_name, String columnName1,String columnName2)
+    {
+
+        try
+        {
+
+
+            String XLFilePath = "C:\\Users\\divakarab\\IdeaProjects\\TestNGNEW\\src\\data.xlsx";
+            FileInputStream myxlfile = new FileInputStream(XLFilePath);
+            Workbook workbook = new XSSFWorkbook(myxlfile);
+            Sheet sheet = workbook.getSheet("credit");
+            int last_row = sheet.getLastRowNum();
+            System.out.println("The last row which has data ==> " + last_row);
+
+            //Loop for Row Iteration
+            for (int i = 0; i <= last_row; i++) {
+                Row row = sheet.getRow(i);
+
+                //Get Last column which has data
+                int last_cell = row.getLastCellNum();
+                Cell cell = row.getCell(0);
+                String runtimeTCName = cell.getStringCellValue();
+                // System.out.println("The First Column Value is:" + runtimeTCName);
+                if (runtimeTCName.equals(Test_case_name))
+                {
+                    Row row_new = sheet.getRow(0);
+                    for (int j = 0; j < last_cell; j++)
+                    {
+                        Cell cell_new = row_new.getCell(j);
+                        String runtime_cell_value = cell_new.getStringCellValue();
+                        if (runtime_cell_value.equals(columnName1) || runtime_cell_value.equals(columnName2))
+                        {
+                            String value = sheet.getRow(i).getCell(j).toString();
+                            System.out.println("The XL Value is:" + value);
+                        }
+
+                    }
+                }
+
+            }
+
+
+
+
+
+        }
+
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+
+    }
+}
+
+
+

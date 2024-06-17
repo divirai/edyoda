@@ -1,0 +1,170 @@
+package JDBClearn;
+import java.sql.*;
+
+public class create_database {
+
+    Connection dbconnection;
+
+    public static void main(String[] args)
+    {
+        create_database dbconnect =new create_database();
+        //dbconnect.create_new_db();
+       dbconnect.select_datafromtable("Sakshi");
+        //dbconnect.select_datafromtable("Sakshi");
+    }
+
+    public void create_new_db()
+    {
+        try
+        {
+
+            //URL, DB User Name , DB Password
+            dbconnection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306", "root", "jingale@9999");
+            if (dbconnection != null)
+            {
+                System.out.println("Database server is connected");
+            }
+
+            Statement stamnt = dbconnection.createStatement();
+            stamnt.execute("create database HDFC_Bank");
+            System.out.println("Database Has been created succesfully ");
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("URL , User name or Password is wrong");
+        }
+
+    }
+
+
+    public void create_new_empty_table()
+    {
+        try
+        {
+
+            //URL, DB User Name , DB Password
+            dbconnection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306", "root", "jingale@9999");
+            if (dbconnection != null)
+            {
+                System.out.println("Database server is connected");
+            }
+
+
+            Statement stamnt = dbconnection.createStatement();
+            // Use Database where we need to create a new Table
+
+            stamnt.execute("use HDFC_Bank");
+
+            // Create an empty table
+
+           /*stamnt.execute("create table customer\n" +
+                    "(fname varchar(20) ,\n" +
+                    "lname varchar(20) ,\n" +
+                    "city varchar(50) , \n" +
+                    "phone_no  varchar(10) ) ");
+
+
+               stamnt.execute("insert into hdfc_bank.customer values (\"Sakshi\", \"Rai\", \"Coorg\",\"89978098555\");");
+            System.out.println("Insert values into table ");
+
+
+    System.out.println("Database Table has been created succusfully");
+
+
+
+            stamnt.execute("Insert into customer(fname,lname,city,phone_no) values ('Sakshi','Rai','Coorg','778866116') ,\n" +
+                    "('Testi','Rai','Mysore','97886610'),\n" +
+                    "('New','Rai','Coorg','978866116'),\n" +
+                    "('Kumar','Rai','Bangalore','978866116');");*/
+
+
+            stamnt.execute("update customer set lname='Govinda' where fname='Kumar'");
+
+            System.out.println("Record Updated");
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("URL , User name or Password is wrong");
+        }
+
+    }
+
+
+    public void select_datafromtable(String name)
+    {
+        try
+        {
+
+            //URL, DB User Name , DB Password
+            dbconnection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306", "root", "jingale@9999");
+            if (dbconnection != null)
+            {
+                System.out.println("Database server is connected");
+            }
+
+
+            Statement stamnt = dbconnection.createStatement();
+            // Use Database where we need to create a new Table
+
+            stamnt.execute("use HDFC_Bank");
+
+             ResultSet result= stamnt.executeQuery("SELECT Fname,Lname,Aadhar_No,Address,phone_no FROM hdfc_bank.custadhar\n" +
+                     "where Fname=\""+name+"\";");
+
+
+            while (result.next())
+            {
+                String Getadharnumber =result.getString("Aadhar_No");
+                String Getrunaddress =result.getString("Address");
+                String Getlname =result.getString("Lname");
+                String GetPhone =result.getString("phone_no");
+                System.out.println("Firstname is : "+ name+ "   " +  Getlname+ " from  "  + Getrunaddress+ " City  "
+                        +"Adhar number is :"+ Getadharnumber
+                        +" GetPhone number is : "+ GetPhone
+                );
+            }
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+}
+
+
+*********************
+Runner file :
+
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="reg" verbose="1" parallel="methods">
+
+    <test name="NewUSer">
+
+        <parameter name="requrl" value="https://reqres.in/api/users"></parameter>
+        <parameter name="requrldelete" value="https://reqres.in/api/users/2"></parameter>
+
+
+        <parameter name="name" value="Raksha"></parameter>
+        <parameter name="SSN" value="545944999"></parameter>
+
+
+        <parameter name="celsURL" value="https://www.w3schools.com/xml/tempconvert.asmx"></parameter>
+        <parameter name="celsios" value="5"></parameter>
+        <parameter name="excpectefanse" value="41"></parameter>
+        <parameter name="bookurl" value="https://chercher.tech/sample/api/books.xml"></parameter>
+        <parameter name="rerwsGet" value="https://reqres.in/api/users?page=2"></parameter>
+
+
+        <classes>
+            <class name="GetUser.capstone_SQLActivity"/>
+        </classes>
+    </test>
+</suite>
+
